@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">Как меняется состояние Linux-host</title>
+  <desc id="desc">Трёхфазная анимация: сначала существует link, затем IPv4-адрес создаёт connected route, затем реальный трафик создаёт neighbor state.</desc>
+
+  <rect width="1600" height="980" fill="#ffffff"/>
+
+  <style>
+    text{font-family:Inter,DejaVu Sans,Arial,sans-serif;fill:#172033}
+    .title{font-size:38px;font-weight:780}
+    .subtitle{font-size:19px;fill:#5d6677}
+    .host{fill:#f8fbff;stroke:#3659e3;stroke-width:3}
+    .card{fill:#ffffff;stroke:#ccd4e0;stroke-width:2}
+    .label{font-size:20px;font-weight:720}
+    .mono{font-family:DejaVu Sans Mono,monospace;font-size:17px}
+    .note{font-size:17px;fill:#5d6677}
+    .phaseBadge{fill:#ecf9f0;stroke:#58a66b;stroke-width:2}
+    .wire{stroke:#3659e3;stroke-width:6;stroke-linecap:round}
+    .dot{fill:#3659e3}
+
+    .phase1{animation:p1 12s infinite}
+    .phase2{animation:p2 12s infinite}
+    .phase3{animation:p3 12s infinite}
+    .packet{animation:packet 12s infinite}
+
+    @keyframes p1{
+      0%,20%{opacity:1}
+      24%,96%{opacity:.20}
+      100%{opacity:1}
+    }
+    @keyframes p2{
+      0%,20%{opacity:.20}
+      24%,50%{opacity:1}
+      54%,100%{opacity:.20}
+    }
+    @keyframes p3{
+      0%,50%{opacity:.20}
+      54%,84%{opacity:1}
+      88%,100%{opacity:.20}
+    }
+    @keyframes packet{
+      0%,53%{opacity:0;transform:translateX(0)}
+      56%{opacity:1;transform:translateX(0)}
+      70%{opacity:1;transform:translateX(250px)}
+      80%{opacity:0;transform:translateX(250px)}
+      100%{opacity:0;transform:translateX(0)}
+    }
+  </style>
+
+  <text class="title" x="800" y="58" text-anchor="middle">Один интерфейс — несколько независимых состояний</text>
+  <text class="subtitle" x="800" y="96" text-anchor="middle">Сначала link, затем IPv4 + connected route, затем neighbor state после реального трафика</text>
+
+  <!-- pc1 state -->
+  <rect class="host" x="100" y="145" width="990" height="690" rx="30"/>
+  <text class="label" x="155" y="200">pc1 · состояние сетевого стека Linux</text>
+
+  <!-- Phase 1 -->
+  <rect class="card phase1" x="155" y="235" width="880" height="155" rx="20"/>
+  <text class="label" x="200" y="278">1 · Link</text>
+  <text class="mono" x="200" y="320">eth1: UP</text>
+  <text class="mono" x="200" y="350">MAC: есть · MTU: существует</text>
+  <text class="note" x="200" y="378">Интерфейс жив, но это ещё не доказывает IPv4-связность.</text>
+
+  <!-- Phase 2 -->
+  <rect class="card phase2" x="155" y="425" width="880" height="175" rx="20"/>
+  <text class="label" x="200" y="468">2 · Address + prefix</text>
+  <text class="mono" x="200" y="510">address: 192.0.2.10/24 dev eth1</text>
+  <text class="mono" x="200" y="542">route:   192.0.2.0/24 dev eth1</text>
+  <text class="note" x="200" y="575">Назначили /24 → kernel автоматически добавил connected route.</text>
+
+  <!-- Phase 3 -->
+  <rect class="card phase3" x="155" y="635" width="880" height="165" rx="20"/>
+  <text class="label" x="200" y="678">3 · Traffic + neighbor</text>
+  <text class="mono" x="200" y="720">neighbor: 192.0.2.20 dev eth1</text>
+  <text class="mono" x="200" y="751">lladdr … · REACHABLE</text>
+  <text class="note" x="200" y="782">Route отвечает «куда отправлять», neighbor — «кому на этом link».</text>
+
+  <!-- pc2 -->
+  <rect class="host" x="1190" y="270" width="300" height="300" rx="28"/>
+  <text class="label" x="1340" y="322" text-anchor="middle">pc2</text>
+  <text class="mono" x="1340" y="372" text-anchor="middle">eth1</text>
+  <text class="mono" x="1340" y="414" text-anchor="middle">192.0.2.20/24</text>
+  <text class="mono" x="1340" y="456" text-anchor="middle">MTU 1400</text>
+  <text class="note" x="1340" y="515" text-anchor="middle">сосед на том же link</text>
+
+  <!-- Link and animated packet -->
+  <line class="wire" x1="1090" y1="420" x2="1190" y2="420"/>
+  <circle class="dot packet" cx="1110" cy="420" r="11"/>
+
+  <!-- phase legend -->
+  <rect class="phaseBadge phase1" x="105" y="875" width="410" height="64" rx="18"/>
+  <text class="label" x="310" y="916" text-anchor="middle">PHASE 1 · только link</text>
+
+  <rect class="phaseBadge phase2" x="595" y="875" width="410" height="64" rx="18"/>
+  <text class="label" x="800" y="916" text-anchor="middle">PHASE 2 · address → route</text>
+
+  <rect class="phaseBadge phase3" x="1085" y="875" width="410" height="64" rx="18"/>
+  <text class="label" x="1290" y="916" text-anchor="middle">PHASE 3 · traffic → neighbor</text>
+</svg>
