@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="560" viewBox="0 0 1400 560" role="img" aria-labelledby="t d">
+  <title id="t">Lab 002 topology</title>
+  <desc id="d">Two Linux hosts connected directly by eth1. Students configure IPv4 addresses and MTU on the data-plane link. eth0 remains management-only.</desc>
+  <rect width="1400" height="560" fill="#ffffff"/>
+  <style>
+    text{font-family:Inter,DejaVu Sans,Arial,sans-serif;fill:#172033}
+    .title{font-size:34px;font-weight:750}
+    .sub{font-size:19px;fill:#5a6475}
+    .node{fill:#f8fbff;stroke:#3559e0;stroke-width:3}
+    .chip{fill:#eef2ff;stroke:#a9b7ff;stroke-width:1.5}
+    .name{font-size:30px;font-weight:750}
+    .mono{font-family:DejaVu Sans Mono,monospace;font-size:18px}
+    .link{stroke:#3559e0;stroke-width:7;stroke-linecap:round}
+    .mgmt{stroke:#a7afbd;stroke-width:3;stroke-dasharray:10 10}
+    .label{font-size:18px;font-weight:650}
+  </style>
+
+  <text class="title" x="700" y="55" text-anchor="middle">Lab 002 · Хост как сетевой узел</text>
+  <text class="sub" x="700" y="88" text-anchor="middle">Настраиваем только data plane eth1. Management eth0 не трогаем.</text>
+
+  <rect class="node" x="120" y="155" width="420" height="250" rx="28"/>
+  <text class="name" x="330" y="205" text-anchor="middle">pc1 · Linux</text>
+  <rect class="chip" x="165" y="235" width="330" height="48" rx="14"/>
+  <text class="mono" x="330" y="266" text-anchor="middle">eth1 → 192.0.2.10/24</text>
+  <rect class="chip" x="165" y="300" width="330" height="48" rx="14"/>
+  <text class="mono" x="330" y="331" text-anchor="middle">MTU 1400</text>
+  <text class="sub" x="330" y="380" text-anchor="middle">настраивает студент</text>
+
+  <rect class="node" x="860" y="155" width="420" height="250" rx="28"/>
+  <text class="name" x="1070" y="205" text-anchor="middle">pc2 · Linux</text>
+  <rect class="chip" x="905" y="235" width="330" height="48" rx="14"/>
+  <text class="mono" x="1070" y="266" text-anchor="middle">eth1 → 192.0.2.20/24</text>
+  <rect class="chip" x="905" y="300" width="330" height="48" rx="14"/>
+  <text class="mono" x="1070" y="331" text-anchor="middle">MTU 1400</text>
+  <text class="sub" x="1070" y="380" text-anchor="middle">настраивает студент</text>
+
+  <line class="link" x1="540" y1="280" x2="860" y2="280"/>
+  <text class="label" x="700" y="250" text-anchor="middle">eth1 ↔ eth1</text>
+  <text class="sub" x="700" y="315" text-anchor="middle">192.0.2.0/24</text>
+
+  <line class="mgmt" x1="330" y1="405" x2="330" y2="485"/>
+  <line class="mgmt" x1="1070" y1="405" x2="1070" y2="485"/>
+  <text class="sub" x="330" y="515" text-anchor="middle">eth0 · management</text>
+  <text class="sub" x="1070" y="515" text-anchor="middle">eth0 · management</text>
+</svg>
